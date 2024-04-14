@@ -51,6 +51,43 @@ def brute_force_d(n, e, c):
         d += 1
     return d, attempts
 
+start_time = time.time()
+
+public_key, private_key = generate_keys(8) # Change the bits value to 8 or 16 for cw requiements
+
+end_time = time.time()
+execution_time = end_time - start_time
+
+n, e = public_key
+p, q = private_key
+
+print("Public Key: (n, e) ", public_key)
+print("Private Key: (p, q) ", private_key)
 
 
+#message to be encrypted
+msg = 12
+print("Message: ", msg)
+
+
+#encrypt the message
+c = pow(msg, e, n)
+print("Encrypted Message: ", c)
+
+start_time = time.time()
+
+d, attempts = brute_force_d(n, e, c)
+
+end_time = time.time()
+execution_time += end_time - start_time
+
+
+print("Brute Forced d, 'private exponent' is: ", d)
+print("Attempts made: ", attempts)
+
+#decrypt the message
+m = pow(c, d, n)
+
+print("Decrypted Message: ", m)
+print("Execution Time: ", execution_time)
 
