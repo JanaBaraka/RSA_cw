@@ -30,3 +30,36 @@ def is_prime(num):
         i += 6
     return True
 
+def generate_prime(bits):
+    while True:
+        num = random.getrandbits(bits)
+        if is_prime(num):
+            return num
+
+def generate_keys(bits):
+    p = generate_prime(bits)
+    q = generate_prime(bits)
+    n = p * q
+    phi = (p - 1) * (q - 1)
+    
+    e = 2
+    while math.gcd(e, phi) != 1:
+        e += 1
+    
+    return (n, e), (p, q)
+
+def factorize(n):
+    factors = []
+    d = 2
+    while n > 1:
+        while n % d == 0:
+            factors.append(d)
+            n //= d
+        d += 1
+        if d * d > n:
+            if n > 1:
+                factors.append(n)
+            break
+    return factors
+
+
