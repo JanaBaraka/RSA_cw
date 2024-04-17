@@ -63,3 +63,47 @@ def factorize(n):
     return factors
 
 
+# Generating keys
+start_time = time.time()
+
+public_key, private_key = generate_keys(16)  # Change the bits value to 8 or 16 for coursework requirements
+
+end_time = time.time()
+execution_time = end_time - start_time
+
+n, e = public_key
+p, q = private_key
+
+print("Public Key (n, e):", public_key)
+print("Private Key (p, q):", private_key)
+
+# Message to be encrypted
+msg = 12
+print("Message data =", msg)
+
+# Encryption c = (msg ^ e) % n
+c = pow(msg, e, n)
+print("Encrypted data =", c)
+
+# Factorizing N to obtain p and q
+start_time = time.time()
+
+factors = factorize(n)
+p = factors[0]
+q = factors[1]
+
+end_time = time.time()
+execution_time += end_time - start_time
+
+print("Factored p and q:", (p, q))
+
+# Calculate private exponent d using Extended Euclidean Algorithm
+phi = (p - 1) * (q - 1)
+d = modular_inverse(e, phi)
+print("Private Exponent d =", d)
+
+# Decryption m = (c ^ d) % n
+m = pow(c, d, n)
+print("Original Message Sent =", m)
+
+print("Execution time:", execution_time, "seconds")
